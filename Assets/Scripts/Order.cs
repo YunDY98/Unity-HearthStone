@@ -9,6 +9,12 @@ public class Order : MonoBehaviour
     [SerializeField] Renderer[] middleRenderers;
     [SerializeField] string sortingLayerName;
 
+   private void Start() 
+    {
+        
+        
+        
+    }
     int originOrder;
     public void SetOriginOrder(int originOrder)
     {

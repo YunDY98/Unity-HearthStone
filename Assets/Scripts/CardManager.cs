@@ -8,6 +8,14 @@ public class CardManager: MonoBehaviour
     void Awake() => Inst = this;
 
     [SerializeField] ItemSO itemSO;
+    [SerializeField] GameObject cardPrefab;
+    [SerializeField] List<Card> myCards;
+    [SerializeField] List<Card> otherCards;
+    [SerializeField] Transform cardSpawnPoint;
+    [SerializeField] Transform myCardLeft;
+    [SerializeField] Transform myCardRight;
+    [SerializeField] Transform otherCardLeft;
+    [SerializeField] Transform otherCardRight;
 
     List<Item> itemBuffer;
 
@@ -25,7 +33,7 @@ public class CardManager: MonoBehaviour
 
     void SetupItemBuffer()
     {
-        itemBuffer = new List<Item> ();
+        itemBuffer = new List<Item> (100);
         for (int i = 0; i < itemSO.items.Length; i++)
         {
             Item item = itemSO.items[i];
@@ -53,13 +61,99 @@ public class CardManager: MonoBehaviour
         SetupItemBuffer();
     }
     void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+    {     //          맥용 1번 이벤트                        윈도우용 1번 이벤트 
+        if(Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
         {
-            print(PopItem().name);
-            Debug.Log("Debug message");
+            AddCard(true);
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            AddCard(false);
         }
             
+    }
+
+    void AddCard(bool isMine)
+    {
+        var cardObject = Instantiate(cardPrefab, cardSpawnPoint.position, Utils.QI);
+        var card = cardObject.GetComponent<Card>();
+        card.Setup(PopItem(), isMine);
+        (isMine ? myCards : otherCards).Add(card);
+
+        SetOriginOrder(isMine);
+        CardAlignment(isMine);
+
+    }
+
+    void SetOriginOrder (bool isMine)
+    {   
+        int count = isMine ? myCards.Count : otherCards.Count;
+        for (int i = 0; i < count; i++)
+        {
+            var targetCard = isMine? myCards[i] : otherCards[i];
+            targetCard?.GetComponent<Order>().SetOriginOrder(i);
+        }
+    }
+
+    void CardAlignment(bool isMine)
+    {
+        List<PRS> originCardPRSs = new List<PRS> () ;
+        if (isMine)
+        {
+             originCardPRSs = RoundAlignment (myCardLeft, myCardRight, myCards.Count, 0.5f, Vector3.one *10f);
+        }
+           
+        else
+        {
+            originCardPRSs = RoundAlignment (otherCardLeft, otherCardRight, otherCards.Count, -0.5f, Vector3.one *10f);
+        }
+            
+
+        var targetCards = isMine ? myCards: otherCards;
+
+        for (int i = 0; i < targetCards.Count; i++)
+        {
+            var targetCard = targetCards[i];
+
+            targetCard.originPRS = originCardPRSs[i];
+            targetCard.MoveTransform(targetCard.originPRS,true, 0.7f);
+        }
+
+    }
+
+    List<PRS> RoundAlignment (Transform leftTr, Transform rightTr, int objCount, float height, Vector3 scale)
+    {
+        float[] objLerps = new float[objCount];
+        List<PRS> results = new List<PRS> (objCount) ;
+        switch (objCount)
+        {
+            case 1: objLerps = new float[] { 0.5f }; break;
+            case 2: objLerps = new float[] { 0.27f, 0.73f }; break;
+            case 3: objLerps = new float[] { 0.1f, 0.5f, 0.9f }; break;
+            default:
+                float interval = 1f / (objCount - 1);
+                for (int i = 0; i < objCount; i++)
+                {
+                    objLerps[i] = interval * i;
+                }
+                break;
+        }
+    
+        for (int i = 0; i < objCount; i++)
+        {
+            var targetPos = Vector3.Lerp(leftTr.position, rightTr.position, objLerps[i]);
+            var targetRot = Utils.QI;
+            if (objCount >= 4)
+            {
+                float curve = Mathf.Sqrt(Mathf.Pow(height, 2) - Mathf.Pow(objLerps[i] - 0.5f, 2)) ;
+                curve = height >= 0 ? curve : -curve;
+                targetPos.y += curve;
+                targetRot = Quaternion.Slerp(leftTr.rotation, rightTr.rotation, objLerps[i]);
+
+            }
+            results.Add(new PRS (targetPos, targetRot, scale));
+        }
+        return results;
     }
 
 
