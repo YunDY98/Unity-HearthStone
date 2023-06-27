@@ -70,6 +70,17 @@ public class Card : MonoBehaviour
             CardManager.Inst.CardMouseExit(this);
         }      
     }
+
+    void OnMouseDown()
+    {   
+        if(isFront)
+            CardManager.Inst.CardMouseDown();
+    }
+    void OnMouseUp()
+    {
+        if(isFront)
+            CardManager.Inst.CardMouseUp();
+    }
     
 
 
