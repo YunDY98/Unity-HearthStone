@@ -59,17 +59,15 @@ public class CardManager: MonoBehaviour
     void Start()
     {
         SetupItemBuffer();
+        TurnManager.OnAddCard += AddCard;
+    }
+    void OnDestroy() 
+    {
+        TurnManager.OnAddCard -= AddCard;
+        
     }
     void Update()
-    {     //          맥용 1번 이벤트                        윈도우용 1번 이벤트 
-        if(Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
-        {
-            AddCard(true);
-        }
-        if(Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
-        {
-            AddCard(false);
-        }
+    {  
             
     }
 
