@@ -55,17 +55,24 @@ public class TurnManager : MonoBehaviour
             yield return delay05;
             OnAddCard?.Invoke(true);
         }
-        StartCoroutine(StartTurnco());
+        StartCoroutine(StartTurnCo());
     }
-    IEnumerator StartTurnco ( )
+    IEnumerator StartTurnCo ( )
     {
         isLoading = true;
+        if(myTurn)
+            GameManager.Inst. Notification("Your Turn");
         yield return delay07;
         OnAddCard?.Invoke(myTurn) ;
         yield return delay07;
         isLoading = false;
     }
 
+    public void EndTurn ()
+    {
+        myTurn = !myTurn;
+        StartCoroutine(StartTurnCo());
+    }
     
 
 

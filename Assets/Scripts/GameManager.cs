@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Inst { get; private set; }
     void Awake() => Inst = this;
 
+    [SerializeField] NotificationPanel notificationPanel;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,10 +35,19 @@ public class GameManager : MonoBehaviour
         {
             TurnManager.OnAddCard?.Invoke(false);
         }
+         if(Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            TurnManager.Inst.EndTurn();
+        }
     }
 
     public void StartGame()
     {
         StartCoroutine(TurnManager.Inst.StartGameCo());
     }
+    public void Notification(string message)
+    { 
+        notificationPanel.Show(message);
+    }
+    
 }
