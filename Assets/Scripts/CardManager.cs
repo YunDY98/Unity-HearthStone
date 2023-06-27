@@ -154,5 +154,34 @@ public class CardManager: MonoBehaviour
         return results;
     }
 
+    
+    #region MyCard
+
+    public void CardMouseOver (Card card)
+    {
+       EnlargeCard(true,card);
+    }
+    
+    public void CardMouseExit (Card card)
+    {
+        EnlargeCard(false,card);
+    }
+
+    void EnlargeCard(bool isEnlarge, Card card)
+    {
+        if(isEnlarge)
+        {
+            Vector3 enlargePos = new Vector3(card.originPRS.pos.x, -4.8f, -20f);
+            card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 15f), false);
+        }
+        else 
+        {
+            card.MoveTransform(card.originPRS, false);
+        }
+        card.GetComponent<Order>().SetMostFrontOrder(isEnlarge);
+
+    }
+    #endregion
+
 
 }
