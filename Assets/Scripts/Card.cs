@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+
 public class Card : MonoBehaviour
 {
     [SerializeField] SpriteRenderer card;
@@ -17,7 +18,8 @@ public class Card : MonoBehaviour
     bool isFront;
     public PRS originPRS;
 
-    public void Setup (Item item, bool isFront)
+
+    public void Setup(Item item, bool isFront)
     {
         this.item = item;
         this.isFront = isFront;
@@ -30,23 +32,45 @@ public class Card : MonoBehaviour
             healthTMP.text = this.item.health.ToString();
         }
         else
-        {   
+        {
             card.sprite = cardBack;
             nameTMP.text = "";
             attackTMP.text = "";
             healthTMP.text = "";
-
         }
+    }
 
+    void OnMouseOver()
+    {
+        if (isFront)
+            CardManager.Inst.CardMouseOver(this);
+    }
+
+    void OnMouseExit()
+    {
+        if (isFront)
+            CardManager.Inst.CardMouseExit(this);
+    }
+
+    void OnMouseDown()
+    {
+        if (isFront)
+            CardManager.Inst.CardMouseDown();
+    }
+
+    void OnMouseUp()
+    {
+        if (isFront)
+            CardManager.Inst.CardMouseUp();
     }
 
     public void MoveTransform(PRS prs, bool useDotween, float dotweenTime = 0)
     {
         if (useDotween)
         {
-            transform.DOMove(prs.pos, dotweenTime); 
+            transform.DOMove(prs.pos, dotweenTime);
             transform.DORotateQuaternion(prs.rot, dotweenTime);
-            transform.DOScale(prs.scale, dotweenTime) ;
+            transform.DOScale(prs.scale, dotweenTime);
         }
         else
         {
@@ -54,50 +78,5 @@ public class Card : MonoBehaviour
             transform.rotation = prs.rot;
             transform.localScale = prs.scale;
         }
-    }
-   
-    void OnMouseOver()
-    {
-        if(isFront)
-        {
-            CardManager.Inst.CardMouseOver(this);
-        }
-    }
-    void OnMouseExit()
-    {
-        if(isFront)
-        {
-            CardManager.Inst.CardMouseExit(this);
-        }      
-    }
-
-    void OnMouseDown()
-    {   
-        if(isFront)
-            CardManager.Inst.CardMouseDown();
-    }
-    void OnMouseUp()
-    {
-        if(isFront)
-            CardManager.Inst.CardMouseUp();
-    }
-    
-
-
-
-
-
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

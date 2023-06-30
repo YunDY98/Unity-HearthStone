@@ -22,6 +22,7 @@ public class TurnManager : MonoBehaviour
     WaitForSeconds delay07 = new WaitForSeconds(0.7f);
 
     public static Action<bool> OnAddCard;
+    public static event Action<bool> OnTurnStarted;
 
 
     void GameSetup()
@@ -66,6 +67,7 @@ public class TurnManager : MonoBehaviour
         OnAddCard?.Invoke(myTurn) ;
         yield return delay07;
         isLoading = false;
+        OnTurnStarted?. Invoke (myTurn);
     }
 
     public void EndTurn ()
