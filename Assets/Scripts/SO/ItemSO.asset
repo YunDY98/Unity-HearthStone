@@ -13,53 +13,68 @@ MonoBehaviour:
   m_Name: ItemSO
   m_EditorClassIdentifier: 
   items:
-  - name: "\uB8E8\uB124\uCF54"
+  - name: HA
+    attack: 1
+    health: 1
+    sprite: {fileID: 21300000, guid: 3555e813e8cf67545908b0ac5a5834af, type: 3}
+    percent: 12
+  - name: H2
+    attack: 1
+    health: 2
+    sprite: {fileID: 21300000, guid: 8dfedddf2799c7b4d82bed3b2f9bd03c, type: 3}
+    percent: 10
+  - name: H3
+    attack: 1
+    health: 3
+    sprite: {fileID: 21300000, guid: e5537e23e6fdde94db19f34a73419df4, type: 3}
+    percent: 10
+  - name: H4
+    attack: 1
+    health: 4
+    sprite: {fileID: 21300000, guid: 4a885f25a9c7fea43a86646f6a5eaa5f, type: 3}
+    percent: 15
+  - name: H5
     attack: 1
     health: 5
-    sprite: {fileID: 21300000, guid: 7246efa120443403590c59dd373fcd88, type: 3}
-    percent: 12
-  - name: "\uB204\uBAA8"
+    sprite: {fileID: 21300000, guid: 9c915f806d6d09845b4cc77519f902d7, type: 3}
+    percent: 15
+  - name: H6
+    attack: 1
+    health: 6
+    sprite: {fileID: 21300000, guid: 0902e26d89d447b4a8a85c382159f4e7, type: 3}
+    percent: 15
+  - name: H7
     attack: 1
     health: 7
-    sprite: {fileID: 21300000, guid: 9c3718da4cf9946f9a43826d649c2bad, type: 3}
-    percent: 10
-  - name: "\uB514\uB2C8\uC5D0"
-    attack: 2
-    health: 4
-    sprite: {fileID: 21300000, guid: a105e028fb29040d5b1639f10a9a03ac, type: 3}
-    percent: 10
-  - name: "\uB77C\uB2C8"
-    attack: 3
-    health: 4
-    sprite: {fileID: 21300000, guid: 14185f1c3e0084099b7f042cbc2b9e31, type: 3}
-    percent: 15
-  - name: "\uB8E8\uB370\uB098"
-    attack: 4
-    health: 3
-    sprite: {fileID: 21300000, guid: e4840c115ead84e19bddef5df6b273b5, type: 3}
-    percent: 15
-  - name: "\uB9AC\uCF54"
-    attack: 2
-    health: 4
-    sprite: {fileID: 21300000, guid: 133257488253449f6a1ea512f41a982b, type: 3}
-    percent: 15
-  - name: "\uCCB4\uB9AC"
-    attack: 2
-    health: 5
-    sprite: {fileID: 21300000, guid: 0da2cfcbe8c5a4bef8fc5a54c43a520f, type: 3}
+    sprite: {fileID: 21300000, guid: f3999b7b63c9674419fc367b508440f9, type: 3}
     percent: 3
-  - name: "\uCF08\uD2B8"
-    attack: 3
-    health: 4
-    sprite: {fileID: 21300000, guid: bc751abc1462d46fd98b062d1f2ea9fd, type: 3}
-    percent: 8
-  - name: "\uD504\uB9AC\uB098"
-    attack: 2
-    health: 4
-    sprite: {fileID: 21300000, guid: 5da748ac21c0e46a4a9dbe7d86624e41, type: 3}
-    percent: 8
-  - name: "\uD0C0\uC774\uAC70"
-    attack: 5
+  - name: H8
+    attack: 1
     health: 8
-    sprite: {fileID: 21300000, guid: 115007bb3b6ca41c1a7a3263a7b53f21, type: 3}
+    sprite: {fileID: 21300000, guid: ccd65c16639c0954caf8f278f1d7ba93, type: 3}
+    percent: 8
+  - name: H9
+    attack: 1
+    health: 9
+    sprite: {fileID: 21300000, guid: 3ef19fb98bce74a48b277d5ac36ababc, type: 3}
+    percent: 8
+  - name: H10
+    attack: 1
+    health: 10
+    sprite: {fileID: 21300000, guid: 6561daa10eb56e944b19b882914ba2ad, type: 3}
+    percent: 4
+  - name: HJ
+    attack: 1
+    health: 11
+    sprite: {fileID: 21300000, guid: 06584b76fb55b1b49a50ce8440ba18f9, type: 3}
+    percent: 4
+  - name: HQ
+    attack: 1
+    health: 12
+    sprite: {fileID: 21300000, guid: aac1d237a2ccd044b81768861f7730c5, type: 3}
+    percent: 4
+  - name: HK
+    attack: 1
+    health: 12
+    sprite: {fileID: 21300000, guid: 7a310aaba26b180419909c4d90017b38, type: 3}
     percent: 4

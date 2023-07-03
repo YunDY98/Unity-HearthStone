@@ -26,6 +26,7 @@ public class CardManager: MonoBehaviour
     Card selectCard;
     bool isMyCardDrag;
     bool onMyCardArea;
+    bool onMyAttackField;
     enum ECardState { Nothing, CanMouseOver, CanMouseDrag }
     int myPutCount;
 
@@ -43,11 +44,11 @@ public class CardManager: MonoBehaviour
 
     void SetupItemBuffer()
     {
-        itemBuffer = new List<Item> (100);
+        itemBuffer = new List<Item> (14);
         for (int i = 0; i < itemSO.items.Length; i++)
         {
             Item item = itemSO.items[i];
-            for (int j = 0; j < item.percent; j++)
+            for (int j = 0; j < 13; j++)
             {
                 itemBuffer.Add(item);
             }
@@ -90,6 +91,7 @@ public class CardManager: MonoBehaviour
         
         DeteqtCardArea();
         SetEcardState();
+        AttackField();
             
     }
 
@@ -120,12 +122,12 @@ public class CardManager: MonoBehaviour
         List<PRS> originCardPRSs = new List<PRS> () ;
         if (isMine)
         {
-             originCardPRSs = RoundAlignment (myCardLeft, myCardRight, myCards.Count, 0.5f, Vector3.one *10f);
+             originCardPRSs = RoundAlignment (myCardLeft, myCardRight, myCards.Count, 0.5f, Vector3.one *7f);
         }
            
         else
         {
-            originCardPRSs = RoundAlignment (otherCardLeft, otherCardRight, otherCards.Count, -0.5f, Vector3.one *10f);
+            originCardPRSs = RoundAlignment (otherCardLeft, otherCardRight, otherCards.Count, -0.5f, Vector3.one *7f);
         }
             
 
@@ -177,6 +179,8 @@ public class CardManager: MonoBehaviour
     }
     public bool TryPutCard (bool isMine)
     {
+        if(!onMyAttackField)
+            return false;
         if (isMine && myPutCount >= 1)
             return false;
         if (!isMine && otherCards. Count <= 0)
@@ -187,15 +191,15 @@ public class CardManager: MonoBehaviour
         var spawnPos = isMine? Utils.MousePos : otherCardSpawnPoint.position;
         var targetCards = isMine ? myCards: otherCards;
 
-        if (EntityManager. Inst. SpawnEntity (isMine, card. item, spawnPos) )
+        if (EntityManager. Inst. SpawnEntity (isMine, card.item, spawnPos))
         {
-            targetCards. Remove (card); 
+            targetCards.Remove(card); 
             card.transform.DOKill();
             DestroyImmediate (card.gameObject); // 3강에 16분 18초 destroyimmediate를 사용하는 이유 
             if (isMine)
             {
                 selectCard = null;
-                myPutCount++;
+                //myPutCount++; 한번에 등록가능한 카드수 
             }
             CardAlignment (isMine); 
             return true;
@@ -261,6 +265,14 @@ public class CardManager: MonoBehaviour
         RaycastHit2D[] hits = Physics2D.RaycastAll(Utils.MousePos, Vector3.forward);
         int layer = LayerMask.NameToLayer("MyCardArea");
         onMyCardArea = Array.Exists(hits, x => x.collider.gameObject.layer == layer);
+    }
+
+    void AttackField()
+    {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(Utils.MousePos, Vector3.forward);
+        int layer = LayerMask.NameToLayer("MyAttackField");
+        onMyAttackField = Array.Exists(hits, x => x.collider.gameObject.layer == layer);
+
     }
 
 

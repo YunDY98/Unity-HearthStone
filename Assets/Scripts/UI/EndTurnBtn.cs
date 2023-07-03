@@ -29,4 +29,7 @@ public class EndTurnBtn : MonoBehaviour
         GetComponent<Button>().interactable = isActive;
         btnText.color = isActive ? new Color32(255, 195, 90, 255) : new Color32(55, 55, 55, 255);
     }
+
+ 
+
 }

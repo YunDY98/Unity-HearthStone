@@ -40,22 +40,22 @@ public class GameManager : MonoBehaviour
 
     void InputCheatKey()
     {
-        if (Input.GetKeyDown(KeyCode.Keypad1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
             TurnManager.OnAddCard?.Invoke(true);
 
-        if (Input.GetKeyDown(KeyCode.Keypad2))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
             TurnManager.OnAddCard?.Invoke(false);
 
-        if (Input.GetKeyDown(KeyCode.Keypad3))
+        if (Input.GetKeyDown(KeyCode.Alpha3))
             TurnManager.Inst.EndTurn();
 
-        if (Input.GetKeyDown(KeyCode.Keypad4))
+        if (Input.GetKeyDown(KeyCode.Alpha4))
             CardManager.Inst.TryPutCard(false);
 
-        if (Input.GetKeyDown(KeyCode.Keypad5))
+        if (Input.GetKeyDown(KeyCode.Alpha5))
             EntityManager.Inst.DamageBoss(true, 19);
 
-        if (Input.GetKeyDown(KeyCode.Keypad6))
+        if (Input.GetKeyDown(KeyCode.Alpha6))
             EntityManager.Inst.DamageBoss(false, 19);
     }
 

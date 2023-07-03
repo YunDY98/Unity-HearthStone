@@ -15,11 +15,12 @@ public class EntityManager : MonoBehaviour
     [SerializeField] Entity myEmptyEntity;
     [SerializeField] Entity myBossEntity;
     [SerializeField] Entity otherBossEntity;
+	[SerializeField] GameObject AttackField;
 
     
 	
 
-	const int MAX_ENTITY_COUNT = 6;
+	const int MAX_ENTITY_COUNT = 4;
 	public bool IsFullMyEntities => myEntities.Count >= MAX_ENTITY_COUNT && !ExistMyEmptyEntity;
 	bool IsFullOtherEntities => otherEntities.Count >= MAX_ENTITY_COUNT;
 	bool ExistTargetPickEntity => targetPickEntity != null;
@@ -86,10 +87,10 @@ public class EntityManager : MonoBehaviour
     }
 
 
-
+	//카드가 필드에 놓여지는 위치  
     void EntityAlignment (bool isMine)
     {
-        float targetY = isMine? -4.35f : 4.15f;
+        float targetY = isMine? -4.35f : 4.15f;//-4.35f : 4.15f;
         var targetEntities = isMine ? myEntities: otherEntities;
 
         for (int i = 0; i < targetEntities. Count; i++)

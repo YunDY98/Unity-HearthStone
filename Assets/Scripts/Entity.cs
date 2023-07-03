@@ -8,7 +8,7 @@ public class Entity : MonoBehaviour
     [SerializeField] Item item;
     [SerializeField] SpriteRenderer entity;
     [SerializeField] SpriteRenderer character;
-    [SerializeField] TMP_Text nameTMP;
+    //[SerializeField] TMP_Text nameTMP;
     [SerializeField] TMP_Text attackTMP;
     [SerializeField] TMP_Text healthTMP;
     [SerializeField] GameObject sleepParticle;
@@ -50,7 +50,7 @@ public class Entity : MonoBehaviour
 
         this.item = item;
         character.sprite = this.item. sprite;
-        nameTMP.text = this.item.name;
+        //nameTMP.text = this.item.name;
         attackTMP.text = attack. ToString();
         healthTMP.text = health. ToString();
     }
