@@ -32,6 +32,8 @@ public class CardManager: MonoBehaviour
 
     public Item PopItem ()
     {
+        //카드가 다 떨어지면 다시 셋업
+
         if (itemBuffer.Count == 0)
         {
             SetupItemBuffer();
@@ -41,6 +43,11 @@ public class CardManager: MonoBehaviour
         itemBuffer.RemoveAt(0); 
         return item;
     }
+    // public Item Push()
+    // {
+        
+
+    // }
 
     void SetupItemBuffer()
     {
@@ -48,10 +55,9 @@ public class CardManager: MonoBehaviour
         for (int i = 0; i < itemSO.items.Length; i++)
         {
             Item item = itemSO.items[i];
-            for (int j = 0; j < 13; j++)
-            {
-                itemBuffer.Add(item);
-            }
+           
+            itemBuffer.Add(item);
+            
            
         }
 
@@ -79,11 +85,13 @@ public class CardManager: MonoBehaviour
         TurnManager. OnTurnStarted -= OnTurnStarted;
         
     }
+
     void OnTurnStarted(bool myTurn)
     {
         if (myTurn)
             myPutCount = 0;
     }
+
     void Update()
     {  
         if(isMyCardDrag)
@@ -142,6 +150,9 @@ public class CardManager: MonoBehaviour
         }
 
     }
+    //         case 1: objLerps = new float[] { 0.5f }; break;
+    //         case 2: objLerps = new float[] { 0.27f, 0.73f }; break;
+    //         case 3: objLerps = new float[] { 0.1f, 0.5f, 0.9f }; break;
 
     List<PRS> RoundAlignment (Transform leftTr, Transform rightTr, int objCount, float height, Vector3 scale)
     {
@@ -177,13 +188,14 @@ public class CardManager: MonoBehaviour
         }
         return results;
     }
+
     public bool TryPutCard (bool isMine)
     {
-        if(!onMyAttackField)
+        // if(!onMyAttackField)
+        //     return false;
+        if (isMine && myPutCount >= 4)
             return false;
-        if (isMine && myPutCount >= 1)
-            return false;
-        if (!isMine && otherCards. Count <= 0)
+        if (!isMine && otherCards.Count <= 0)
             return false;
 
         Card card = isMine? selectCard: otherCards [Random. Range (0, otherCards.Count) ];
@@ -191,7 +203,7 @@ public class CardManager: MonoBehaviour
         var spawnPos = isMine? Utils.MousePos : otherCardSpawnPoint.position;
         var targetCards = isMine ? myCards: otherCards;
 
-        if (EntityManager. Inst. SpawnEntity (isMine, card.item, spawnPos))
+        if (EntityManager.Inst.SpawnEntity(isMine, card.item, spawnPos))
         {
             targetCards.Remove(card); 
             card.transform.DOKill();
@@ -199,7 +211,7 @@ public class CardManager: MonoBehaviour
             if (isMine)
             {
                 selectCard = null;
-                //myPutCount++; 한번에 등록가능한 카드수 
+                myPutCount++;// 한번에 등록가능한 카드수 
             }
             CardAlignment (isMine); 
             return true;
@@ -295,7 +307,7 @@ public class CardManager: MonoBehaviour
     {
         if (TurnManager.Inst.isLoading)
             eCardState = ECardState.Nothing;
-        else if (!TurnManager.Inst.myTurn || myPutCount == 1 || EntityManager.Inst.IsFullMyEntities)
+        else if (!TurnManager.Inst.myTurn || myPutCount == 4 || EntityManager.Inst.IsFullMyEntities)
             eCardState = ECardState.CanMouseOver;
         else if (TurnManager.Inst.myTurn && myPutCount == 0)
             eCardState = ECardState.CanMouseDrag;

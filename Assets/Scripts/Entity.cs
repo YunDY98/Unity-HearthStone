@@ -26,11 +26,11 @@ public class Entity : MonoBehaviour
 
     void Start()
     {
-        TurnManager .OnTurnStarted += OnTurnStarted;
+        TurnManager.OnTurnStarted += OnTurnStarted;
     }
     void OnDestroy ()
     {
-        TurnManager. OnTurnStarted -= OnTurnStarted;
+        TurnManager.OnTurnStarted -= OnTurnStarted;
     }
         
     void OnTurnStarted (bool myTurn)
@@ -65,19 +65,19 @@ public class Entity : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (isMine)
+        if(isMine)
             EntityManager.Inst.EntityMouseDown(this);
     }
 
     void OnMouseUp()
     {
-        if (isMine)
+        if(isMine)
             EntityManager.Inst.EntityMouseUp();
     }
 
     void OnMouseDrag()
     {
-        if (isMine)
+        if(isMine)
             EntityManager.Inst.EntityMouseDrag();
     }
 

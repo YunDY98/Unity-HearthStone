@@ -48,13 +48,13 @@ public class Card : MonoBehaviour
 
     void OnMouseExit()
     {
-        if (isFront)
+        if(isFront)
             CardManager.Inst.CardMouseExit(this);
     }
 
     void OnMouseDown()
     {
-        if (isFront)
+        if(isFront)
             CardManager.Inst.CardMouseDown();
     }
 

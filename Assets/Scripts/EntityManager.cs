@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 using UnityEngine;
 using DG.Tweening;
 
@@ -15,10 +17,13 @@ public class EntityManager : MonoBehaviour
     [SerializeField] Entity myEmptyEntity;
     [SerializeField] Entity myBossEntity;
     [SerializeField] Entity otherBossEntity;
-	[SerializeField] GameObject AttackField;
+
+	bool onMyAttackField;
+
+	
 
     
-	
+
 
 	const int MAX_ENTITY_COUNT = 4;
 	public bool IsFullMyEntities => myEntities.Count >= MAX_ENTITY_COUNT && !ExistMyEmptyEntity;
@@ -53,6 +58,7 @@ public class EntityManager : MonoBehaviour
     void Update()
 	{
 		ShowTargetPicker(ExistTargetPickEntity);
+		AttackField();
 	}
 
     IEnumerator AICo()
@@ -90,17 +96,39 @@ public class EntityManager : MonoBehaviour
 	//카드가 필드에 놓여지는 위치  
     void EntityAlignment (bool isMine)
     {
-        float targetY = isMine? -4.35f : 4.15f;//-4.35f : 4.15f;
-        var targetEntities = isMine ? myEntities: otherEntities;
+		//if(onMyAttackField)
+		{
+			float targetY = isMine? -4.35f : 4.15f;//-4.35f : 4.15f;
+        	var targetEntities = isMine ? myEntities: otherEntities;
+			
+        	for (int i = 0; i < targetEntities. Count; i++)
+        	{
+				//사이 간격
+        	    float targetX = (targetEntities. Count - 1) *1f + i * 4f + 4f; //4.0f + i * 6.8f;
+				float CtargetX = Mathf.Clamp(targetX, 4f, 25f);
+        	    var targetEntity = targetEntities [i];
+        	    targetEntity.originPos = new Vector3(CtargetX, targetY, 0) ;
+        	    targetEntity.MoveTransform(targetEntity.originPos,true,1f); 
+        	    targetEntity.GetComponent<Order>()?.SetOriginOrder(i);
+        	}
 
-        for (int i = 0; i < targetEntities. Count; i++)
-        {
-            float targetX = (targetEntities. Count - 1) * -3.4f + i * 6.8f;
-            var targetEntity = targetEntities [i];
-            targetEntity.originPos = new Vector3(targetX, targetY, 0) ;
-            targetEntity.MoveTransform(targetEntity.originPos,true,0.5f); 
-            targetEntity.GetComponent<Order>()?.SetOriginOrder(i);
-        }
+		}
+		// else
+		// {
+		// 	float targetY = isMine? -4.35f : 4.15f;//-4.35f : 4.15f;
+        // 	var targetEntities = isMine ? myEntities: otherEntities;
+
+        // 	for (int i = 0; i < targetEntities. Count; i++)
+        // 	{
+        // 	    float targetX = (targetEntities. Count - 1) * -3.4f + i * 6.8f;
+        // 	    var targetEntity = targetEntities [i];
+        // 	    targetEntity.originPos = new Vector3(targetX, targetY, 0) ;
+        // 	    targetEntity.MoveTransform(targetEntity.originPos,true,0.5f); 
+        // 	    targetEntity.GetComponent<Order>()?.SetOriginOrder(i);
+        // 	}
+
+		// }
+        
     }
 
     public void InsertMyEmptyEntity(float xPos)
@@ -129,7 +157,7 @@ public class EntityManager : MonoBehaviour
         myEntities.RemoveAt(MyEmptyEntityIndex);
         EntityAlignment(true);
     }  
-    public bool SpawnEntity (bool isMine, Item item, Vector3 spawnPos)
+    public bool SpawnEntity(bool isMine, Item item, Vector3 spawnPos)
     {
         if (isMine)
         {
@@ -147,7 +175,7 @@ public class EntityManager : MonoBehaviour
         if (isMine)
             myEntities [MyEmptyEntityIndex] = entity;
         else
-            otherEntities. Insert (Random. Range(0, otherEntities.Count), entity);
+            otherEntities.Insert(Random. Range(0, otherEntities.Count), entity);
 
         entity.isMine = isMine;
         entity.Setup(item);
@@ -158,7 +186,7 @@ public class EntityManager : MonoBehaviour
 
     public void EntityMouseDown(Entity entity) 
 	{
-		if (!CanMouseInput)
+		if(!CanMouseInput)
 			return;
 
 		selectEntity = entity;
@@ -282,4 +310,12 @@ public class EntityManager : MonoBehaviour
 		targetBossEntity.Damaged(damage);
 		StartCoroutine(CheckBossDie());
 	}
+
+	void AttackField()
+    {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(Utils.MousePos, Vector3.forward);
+        int layer = LayerMask.NameToLayer("MyAttackField");
+        onMyAttackField = Array.Exists(hits, x => x.collider.gameObject.layer == layer);
+
+    }
 }   
